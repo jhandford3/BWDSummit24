@@ -1,6 +1,6 @@
 ---
-title: "Intro to Data Science Using R"
-author: "*Presenters: Janeka Handford & Jimmy Lubega*"
+title: "**Intro to Data Science Using R**"
+author: "**Presenters: Janeka Handford & Jimmy Lubega**"
 output: 
   learnr::tutorial:
     allow_skip: true
@@ -44,7 +44,7 @@ flair_bg_green <- "#DFF0D8"
 
 ## Introduction
 
-### Welcome BWD Summit 2024!
+### **Welcome BWD Summit 2024!**
 
 ### Pre-Survey WorkShop Intake Form
 
@@ -1039,6 +1039,15 @@ ggplot(data = worksgardner) +
 
 ## Additional Resources
 
+### RStudio IDE is an Integrated Development Environment (IDE) for R.
+
+
+![](images/panes.png){width="75%"}
+
+### Posit Cloud 
+
 <https://posit.cloud/>
+
+### Posit Academy 
 
 <https://posit.co/products/enterprise/academy/>
