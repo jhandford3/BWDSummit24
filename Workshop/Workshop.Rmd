@@ -169,14 +169,66 @@ Conclusion: With R installed and basic packages loaded, you're ready to start pe
 
 ### Write and run R code
 
-```{r}
-print("Jimmy - can you go back and add %>%, ?,  <- and |>, and then talk about what a data frame/tibble is.")
-# Jimmy. - can you talk about what a %>% and <- is in this section.
-#    -   Run functions on values
+### Basic Functions in R
 
-#    -   Save values as objects to use later with `<-`
+    <-: Used for assignment (assigns values to variables).
+    c(): Combines elements into a vector.
+    %>%: A pipe operator from the tidyverse for chaining operations.
+    |>: The native pipe operator in base R for chaining function calls.
 
-#    -   Chain functions together with `|>` or with %>%
+<-
+
+    Description: This is the assignment operator in R. It is used to assign values to a variable.
+    Usage:
+
+``` {r}
+
+    x <- 5  # Assigns the value 5 to variable x
+    name <- "Chatbot"  # Assigns the string "Chatbot" to variable name
+
+```
+
+c()
+
+    Description: This function combines values into a vector. It stands for "combine" or "concatenate." You can use it to create numerical vectors, character vectors, lists, and more.
+    Usage:
+
+``` {r}
+
+    numeric_vector <- c(1, 2, 3, 4, 5)  # Creates a numeric vector
+    char_vector <- c("apple", "banana", "cherry")  # Creates a character vector
+
+    # Combining different types (will coerce to the most flexible type)
+    mixed_vector <- c(1, "two", 3)  # Creates a character vector with elements "1", "two", "3"
+
+```
+
+%>%
+
+Description: This is the pipe operator commonly used in the tidyverse packages (like dplyr). It allows you to chain commands together by passing the output of one function directly into the next function, improving the readability and flow of data processing.
+usage:
+
+``` {r}
+
+    library(dplyr)
+
+    result <- mtcars %>%
+      filter(mpg > 20) %>%
+      select(mpg, cyl)  # Filter rows where miles per gallon is greater than 20 and select specific columns
+
+```
+
+ |>
+
+    Description: Introduced in R version 4.1.0, this is the native pipe operator. Similar to %>%, it allows you to pass the output of one function as the input to the next. The main difference is preference and style, as both accomplish similar tasks.
+    Usage:
+
+``` {r}
+
+result <- mtcars |> 
+  filter(mpg > 20) |> 
+  select(mpg, cyl)  # Same functionality as with the %>% operator
+
 ```
 
 Now Let's try a simple exercise of creating a school data frame using a tibble format A Tibble is a data frame that is part of the tidyverse library.
