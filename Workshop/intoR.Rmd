@@ -167,21 +167,53 @@ library(dplyr)
 
 Conclusion: With R installed and basic packages loaded, you're ready to start performing data analysis and visualizations. R offers extensive resources and community support, making it a great choice for anyone looking to work in data science or statistics. Happy coding!
 
-### Write and run R code
+### Basic R Functions Explained.
 
-```{r}
-print("Jimmy - can you go back and add %>%, ?,  <- and |>, and then talk about what a data frame/tibble is.")
-# Jimmy. - can you talk about what a %>% and <- is in this section.
-#    -   Run functions on values
+<-: Used for assignment (assigns values to variables).
+c(): Combines elements into a vector.
+%>%: A pipe operator from the tidyverse for chaining operations.
+|>: The native pipe operator in base R for chaining function calls.
 
-#    -   Save values as objects to use later with `<-`
+Examples: 
 
-#    -   Chain functions together with `|>` or with %>%
+``` {r ex2-print, exercise=TRUE}
+# <-
+x <- 5  # Assigns the value 5 to variable x
+name <- "BlackWomeninData"  # Assigns the string "BlackWomeninData" to variable name
+
 ```
 
-Now Let's try a simple exercise of creating a school data frame using a tibble format A Tibble is a data frame that is part of the tidyverse library.
+``` {r ex3-print, exercise=TRUE}
+# c()
+numeric_vector <- c(1, 2, 3, 4, 5)  # Creates a numeric vector
+char_vector <- c("apple", "banana", "cherry")  # Creates a character vector
+# Combining different types (will coerce to the most flexible type)
+mixed_vector <- c(1, "two", 3)  # Creates a character vector with elements "1", "two", "3"
 
-```{r ex3-print, exercise=TRUE}
+```
+
+``` {r ex4-print, exercise=TRUE}
+#  %>%
+library(dplyr)
+result <- mtcars %>%
+filter(mpg > 20) %>%
+select(mpg, cyl)  # Filter rows where miles per gallon is greater than 20 and select specific columns
+
+```
+
+``` {r ex5-print, exercise=TRUE}
+# <-|>
+result <- mtcars |> 
+filter(mpg > 20) |> 
+select(mpg, cyl)  # Same functionality as with the %>% operator
+```
+
+Now Let's try a simple exercise of creating a school data frame using a tibble format.
+
+### What is A Tibble?
+A tibble is a modern version of a data frame in R, which is part of the tidyverse collection of packages. Tibbles provide a more user-friendly and efficient way to handle data. 
+
+```{r ex6-print, exercise=TRUE}
 #We want to create a data frame to keep track of:
 
 #The teachers at Grove Middle School
