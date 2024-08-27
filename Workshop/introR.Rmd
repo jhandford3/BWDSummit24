@@ -4,6 +4,7 @@ author: "**Presenters: Janeka Handford & Jimmy Lubega**"
 output: 
   learnr::tutorial:
     allow_skip: true
+    df_print: paged
 runtime: shiny_prerendered
 description: "Intro to R and Tidyverse"
 ---
@@ -20,7 +21,8 @@ library(gt)
 
 #library(here)
 library(gradethis)
-knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+#knitr::opts_chunk$set(echo = FALSE, exercise.checker = gradethis::grade_learnr)
+gradethis::gradethis_setup()
 theme_set(theme_light())
 
 # small data set to use throughout the tutorial
@@ -128,102 +130,264 @@ Throughout this tutorial, you will see code exercises that look like this:
 
 R is a powerful and flexible programming language and software environment specifically designed for statistical computing and data analysis.R is open-source, meaning that it is free to use and has a large community contributing to its ongoing development.
 
-### **How to Install R?**
+### **Functions**
 
-To get started with R, follow these steps to install it on your computer:
+####
 
-Download R:Visit the Comprehensive R Archive Network (CRAN): <https://cran.r-project.org/>. Choose your operating system (Windows, MacOS, or Linux) and download the appropriate installer.
+`Sys.Date` is an R function that returns today's date. To run it, type a pair of parentheses, `()`, after its name. 
 
-Install R: Run the downloaded installer and follow the installation instructions.
+**Add a pair of parentheses behind `Sys.Date`, like this: `Sys.Date()`.** Then run the code.
 
-Install RStudio on your desktop using the following link: <https://posit.co/download/rstudio-desktop/>
-
-Once R is installed, you can start using it to run analyses and visualizations. R has a wide variety of packages available to extend its functionality. Here’s how to install and load some basic R packages:
-
-### **The basics of R packages**
-
-#### Installing Packages:
-
-To install a package in R, use the `install.packages()` function.
-
-For example, you can install the ggplot2 package for data visualization and the dplyr package for data manipulation:
-
-`install.packages("ggplot2")`
-
-`install.packages("dplyr")`
-
--   The packages needed for this tutorial has already been installed.
-
-#### Loading Packages:
-
-After a package is installed, you need to load it into your R session using the library() function. This needs to be done each time you start a new session and want to use the package:
-
-Example
-
-```{r ex2-print, exercise=TRUE}
-library(ggplot2)  
-library(dplyr)     
+```{r sysdate, exercise = TRUE, exercise.eval = TRUE}
+Sys.Date
 ```
 
-Conclusion: With R installed and basic packages loaded, you're ready to start performing data analysis and visualizations. R offers extensive resources and community support, making it a great choice for anyone looking to work in data science or statistics. Happy coding!
+```{r sysdate-solution}
+Sys.Date()
+```
 
-### Write and run R code
+```{r sysdate-check}
+grade_result(
+  pass_if(~is(.result, "Date"), "When we add the parentheses, R runs the code in `Sys.Date()` and returns its result."),
+  fail_if(~TRUE, "Double check that you added parentheses behind `Sys.Date`.")
+)
+```
+
+#### `()`
+
+To run any function in R, add a pair of parentheses, `()`, to the end of the function name. Think of the parentheses as the trigger that causes R to run the code stored in the function.
+
+Sometimes you will hear people speak of _executing_ a function or _calling_ a function. These are synonyms for running a function.
+
+::: {.tip}
+When I mention a function, I'll try to put `()` after its name, e.g. `Sys.Date()`. This convention will help distinguish functions from other objects in R that aren't functions. We will learn about other types of objects in future tutorials.
+:::
+
+####
+
+Functions are like the "verbs" of R. Whenever we do something in R, we do it by calling a function. 
+
+R comes with thousands of predefined functions for you to use. For example, `sqrt()` computes the square root of a number.
 
 ```{r}
-print("Jimmy - can you go back and add %>%, ?,  <- and |>, and then talk about what a data frame/tibble is.")
-# Jimmy. - can you talk about what a %>% and <- is in this section.
-#    -   Run functions on values
-
-#    -   Save values as objects to use later with `<-`
-
-#    -   Chain functions together with `|>` or with %>%
+sqrt(3)
 ```
 
-Now Let's try a simple exercise of creating a school data frame using a tibble format A Tibble is a data frame that is part of the tidyverse library.
-
-```{r ex3-print, exercise=TRUE}
-#We want to create a data frame to keep track of:
-
-#The teachers at Grove Middle School
-#The number of students in their classrooms
-#The grade levels of the students
-#We begin by loading the tibble package which contains tibble(). Next we input our data into tibble(). Our tibble will have the column names teacher, class_size, and grade with the values provided below.
-
-library(tibble)
-tibble(
-  teacher = c("Gaines", "Johnson", "Hernandez"),
-  class_size = c(30, 26, 28),
-  grade = c(6, 7, 8)
-)
-## # A tibble: 3 × 3
-##   teacher   class_size grade
-##   <chr>          <dbl> <dbl>
-## 1 Gaines            30     6
-## 2 Johnson           26     7
-## 3 Hernandez         28     8
-#After checking out the created tibble, we realize it would be a good idea to include the school name in the data frame in case we decide to include other schools in the future. If we pass only a single value to this column, R will use its recycling rules to reuse that value for each row in the tibble.
-
-tibble(
-  teacher = c("Gaines", "Johnson", "Hernandez"),
-  class_size = c(30, 26, 28),
-  grade = c(6, 7, 8),
-  school = "Grove MS"
-)
-## # A tibble: 3 × 4
-##   teacher   class_size grade school  
-##   <chr>          <dbl> <dbl> <chr>   
-## 1 Gaines            30     6 Grove MS
-## 2 Johnson           26     7 Grove MS
-## 3 Hernandez         28     8 Grove MS
-#Lastly, we assign the created tibble to the object, teachers, so we can access is later.
-
-teachers <- tibble(
-  teacher = c("Gaines", "Johnson", "Hernandez"),
-  class_size = c(30, 26, 28),
-  grade = c(6, 7, 8),
-  school = "Grove MS"
+```{r sqrt, echo = FALSE}
+question(
+  "Make a guess. What will R return if we run `sqrt()` with no `3` between the parentheses?",
+  answer("An error", correct = TRUE, "Many functions, like `sqrt()` require input to do their job. We must tell R which number to take the square root of."),
+  answer("Some code", message = "R would return some code if we ran `sqrt` without the parentheses."),
+  answer("1.732051"),
+  answer("NA", message = "R uses the symbol NA to stand for data that is _not available_, i.e. missing. The result of `sqrt()` is not available, but it is not available due to user error."),
+  allow_retry = TRUE
 )
 ```
+
+
+### **Objects**
+
+#### **Consider this**
+
+* How would _you_ store this number `2.718282` as `e` in R's memory? 
+* How would you retrieve the value of `e`? 
+
+#### **Assignment**
+
+To save `2.718282` as `e` in R, we assign the value `2.718282` to the name `e`. The syntax looks like this:
+
+```{r assign-e}
+e <- 2.718282
+```
+
+
+```{r ref.label="assign-e"}
+# show `assign-e` chunk in text
+```
+
+`<-` is R's assignment operator. To write it, type:
+
+1. a less than sign, `<`, followed immediately by 
+2. a minus sign, `-` 
+
+The combination looks like an arrow. `<-` creates a new _object_ that has the name that appears on the left side of the arrow and the value that appears on the right side of the arrow. 
+
+::: tip
+
+There is a programming paradigm called Object Oriented Programming (OOP) —- that's not R, and I'm not using the term "object" in the same way. Here, object means something much closer to its meaning in English. Think of an "object" as the implied entity that has the name `e` and (for the moment) the value `r e`.
+
+:::
+
+
+####
+
+Let's make our own version of `e`.
+
+**Create an object named `e` for yourself below.** I've typed out the value of $e$ to get you started. Remember that R won't return a result when you create an object, and that's OK.
+
+
+```{r makee, exercise = TRUE}
+2.718282
+```
+
+```{r makee-solution}
+e <- 2.718282
+```
+
+```{r makee-check}
+grade_this_code("Good work. Now let's look at what we can do with `e`")
+```
+
+
+### What if?
+ 
+We can assign to an object more than once.
+
+```{r eval = FALSE}
+q <- 55
+q <- 99
+q
+```
+
+```{r mwr-mcq6, echo = FALSE}
+learnr::question("Make a guess. What will `q` return when we run this code?",
+  answer("`55`, because this was the first value we assigned to `q`."),
+  answer("`99`, because this was the most recent value we assigned to `q`.", correct = TRUE),
+  answer("`55, 99`, because R is starting a collection of values stored in `q`."),
+  answer("Actually, this code won't get to `q`, because R will return an error when we try to run `q <- 99`.", message = "Thankfully, R will not return an error."),
+  allow_retry = TRUE,
+  correct = "
+We can update the value of an object by reassigning to it.
+This is very practical, but it has a downside:
+it is easy to overwrite the values of existing objects. Be careful!"
+)
+```
+
+
+### **Functions and objects**
+
+####
+
+Can you run a function on an object? Let's find out. **In the box below, try to `round()` `e`.** 
+
+```{r rounde, exercise = TRUE, exercise.setup="assign-e"}
+
+```
+
+```{r rounde-solution}
+round(e)
+```
+
+```{r rounde-check}
+grade_this_code("Excellent, you can run a function on an object. And `round(e)` was less typing than `round(2.718282)`.")
+```
+
+####
+
+### **Naming rules**
+
+####
+
+We can name an object almost anything we want, but we do need to follow a couple of rules:
+
+1. A name cannot begin with a number
+1. A name cannot contain a special character like, `+`, `-`, `/`, `*`, `^`, `%`, `!`, `$`, `@`, `'`, `"`. R wouldn't be able to tell if we were naming an object or doing some math. One exception is `_`, which is often used *in* names (but a name can't start with `_`).
+
+####
+
+
+### **Assembling code**
+
+####
+
+**On the three empty lines below:**
+
+1. Create an object named `hello` that contains the value `56`
+1. Create an object named `world` that contains the value `44`
+1. Add `hello` to `world`
+
+
+
+```{r hello, exercise = TRUE, exercise.lines = 3}
+ 
+ 
+
+```
+
+```{r hello-solution}
+hello <- 56
+world <- 44
+hello + world
+```
+
+```{r hello-check}
+grade_result(
+  fail_if(~!exists("hello"), "Did you create an object named `hello` with `<-` ?"),
+  fail_if(~!exists("world"), "Did you create an object named `world` with `<-` ?"), 
+  fail_if(~!identical(hello, 56), "`hello` should have the value 56."),
+  fail_if(~!identical(world, 44), "`world` should have the value 44."),
+  fail_if(~!identical(.result, 100), "The result is not 100. Did you add `hello` and `world` together?"),
+  pass_if(~TRUE)
+)
+```
+
+####
+
+**Now add a function to the third line to find the square root of `hello + world`.**  Be sure to remove each `_` before you run your code._
+
+```{r squarehello, exercise = TRUE}
+hello <- 56
+world <- 44
+____(hello + world)
+```
+
+```{r squarehello-solution}
+hello <- 56
+world <- 44
+sqrt(hello + world)
+```
+
+```{r squarehello-check}
+grade_this_code("Good job. When you write code inside of the parentheses that follow a function, R will work from the inside out: R will run the code inside of the parentheses, and then run the function outside of the parentheses on the result.")
+```
+
+
+### **Chaining functions**
+
+R users will usually rewrite nested functions as _chained_ functions, which are easier to read. You can chain two functions together with the pipe symbol, which looks like this, `%>%`.
+
+```{r}
+e %>% round()
+```
+
+`%>%` takes the result of the expression on its left-hand side and passes it into the first argument of the function on its right-hand side.
+
+
+####
+
+You can use `%>%` sequentially to chain together multiple functions. For example, we can rewrite `sqrt(round(e))` as 
+
+```{r}
+e %>% 
+  round() %>% 
+  sqrt()
+```
+
+::: fyi
+
+Notice that the R interpreter runs the code above as a single expression, even though it spans multiple lines. As the interpreter reads code, when it gets to the end of a line, it checks to see whether or not it has read a complete expression. If it has, the interpreter runs the code. If it hasn't, the interpreter continues to read in the next line of code. If there is no next line, the interpreter will return an error.
+
+:::
+
+
+#### `%>%` vs. `|>` {.tip}
+
+One last detail before we wrap up---R has introduced `|>`, but for this tutorial, we are using the pipe operator named `%>%`. If you have written (or read) R code before, the `%>%` operator may look familiar to you. It works in almost exactly the same way as `|>`.
+
+If you're curious to learn more, you can read about the differences between `|>` and `%>%` in [this blog post](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/){target="_blank" rel="noopener noreferrer"}.
+
+####
+
 
 Congrats on your completing your into to R coding. Now lets dive into the Tidyverse World :)
 
@@ -242,16 +406,18 @@ As of [tidyverse 2.0.0](https://www.tidyverse.org/blog/2023/03/tidyverse-2-0-0/)
 -   tidyr
 -   readr
 -   purrr
--   tibble
+-   **tibble**
 -   stringr
 -   forcats
 -   lubridate
 
-### Installation and use
+## **Tables / Tibbles / data frames **
 
--   Install all the packages in the tidyverse by running `install.packages("tidyverse")`.
+In R, spreadsheet-like tables are called "tibbles" or "data frames." This distinguishes them from matrices and arrays, which are another type of table.
+  
+As data scientists, we will work closely with tibbles. Today we will learn how to transform and visualize data from tibbles.
 
--   Run `library(tidyverse)` to load the core tidyverse and make it available in your current R session.
+
 
 ## **Data transformation with dplyr**
 
@@ -683,7 +849,7 @@ Specifically, you will learn how to:
 
 ### **Add a new column**
 
-Consider a small data set I’ve prepared called `penguins_sample`. It has four columns.
+Consider a small data set I’ve prepared called `worksgardner_sample`. It has four columns.
 
 ```{r}
 worksgardner_sample
@@ -1037,12 +1203,66 @@ ggplot(data = worksgardner) +
 #Create a scatter plot using your own data and customization 
 ```
 
-## Additional Resources
+## Next Steps
+
+**Want to keep learning?**
+
+### **How to Install R?**
+
+To get started with R, follow these steps to install it on your computer:
+
+Download R:Visit the Comprehensive R Archive Network (CRAN): <https://cran.r-project.org/>. Choose your operating system (Windows, MacOS, or Linux) and download the appropriate installer.
+
+Install R: Run the downloaded installer and follow the installation instructions.
 
 ### RStudio IDE is an Integrated Development Environment (IDE) for R.
 
+Install RStudio on your desktop using the following link: <https://posit.co/download/rstudio-desktop/>
+
 
 ![](images/panes.png){width="75%"}
+
+
+
+Once R is installed, you can start using it to run analyses and visualizations. R has a wide variety of packages available to extend its functionality. Here’s how to install and load some basic R packages:
+
+
+
+
+#### Installing Packages:
+
+To install a package in R, use the `install.packages()` function.
+
+For example, you can install the ggplot2 package for data visualization and the dplyr package for data manipulation:
+
+`install.packages("ggplot2")`
+
+`install.packages("dplyr")`
+
+
+
+#### Loading Packages:
+
+After a package is installed, you need to load it into your R session using the library() function. This needs to be done each time you start a new session and want to use the package:
+
+Example:
+
+```{r ex12-print, exercise=FALSE}
+library(ggplot2)  
+library(dplyr)     
+```
+
+Conclusion: With R installed and basic packages loaded, you're ready to start performing data analysis and visualizations. R offers extensive resources and community support, making it a great choice for anyone looking to work in data science or statistics. Happy coding!
+
+
+
+
+
+
+
+
+
+
 
 ### Posit Cloud 
 
