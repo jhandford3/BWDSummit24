@@ -32,6 +32,11 @@ worksgardner_sample <- worksgardner %>%
  select(publication_year, artist_race,  artist_gender,n) %>%
  rename(number_of_artworks = n)
 
+worksgardner_sample_mutate <- worksgardner %>%
+ filter(artist_race == "Black or African American")
+
+artists_sample_mutate <-  artists %>% filter(artist_race_nwi == "Non-White") %>% select(artist_name, year, book, artist_race, artist_ethnicity, artist_gender)
+
 set.seed(333)
 a <- abs(rnorm(n = 10) * 10)
 b <- a + rnorm(n = 10)
@@ -449,7 +454,14 @@ Artists who are women have been historically underrepresented, both where art is
 
 The [dataset](https://saralemus7.github.io/arthistory/#datasets) used in this tutorial was created by Holland Stam for her excellent undergraduate [thesis](https://doi.org/10.7924/r4dn48h0w). Let’s start by reading in the data for one specific textbook, ***Gardner’s Art Through the Ages***:
 
-**Can you load the `arthistory` package below?** I’ve already installed the package for us.
+
+R doesn't use every package you have installed every time you open R. R waits for you to tell it which packages you would like to use during _that_ R session. By R session, I mean the time from when you open R (or the RStudio IDE) until when you close it. 
+
+::: tip
+How do you tell R to load a package? With the `library()` command
+:::
+
+**Can you load the `arthistory` package below?** 
 
 ```{r library-tidyverse-arthistory, exercise=TRUE}
 
@@ -461,7 +473,7 @@ library(arthistory)
 ```
 
 ```{r library-tidyverse-arthistory-check}
-grade_code("The arthistory package contains 3 datasets: worksjanson, worksgardner, and artists.")
+grade_this_code("The arthistory package contains 3 datasets: worksjanson, worksgardner, and artists.")
 ```
 
 **Use the code box below to display `worksgardner`.**
@@ -477,7 +489,7 @@ worksgardner
 ```
 
 ```{r data-explore-arthistory-check}
-grade_code("The data and glimpse function allows us to preview the data.")
+grade_this_code("The data and glimpse function allows us to preview the data.")
 ```
 
 ## **Select Data**
@@ -651,7 +663,7 @@ worksgardner %>%
 
 `relocate()` is used to reorder columns in your data frame. By default it puts whatever columns you list at the front of your data set.
 
-**Let's try to relocate artist_gender and artist_race as the first two columns in the window below.**
+**Let's try to relocate `artist_gender` and `artist_race` as the first two columns in the window below.**
 
 ```{r dplyr-arthistory-select-6, exercise=TRUE}
 worksgardner %>%
@@ -747,7 +759,7 @@ filter(artist_gender  == "Female")
 ```
 
 ```{r dplyr-arthistory-filter-2-check}
-grade_code("filter() extract observations based on conditions. To combine multiple conditions, just separate those conditions with a comma")
+grade_this_code("filter() extract observations based on conditions. To combine multiple conditions, just separate those conditions with a comma")
 ```
 
 ### **Takeaway** {.takeaway}
@@ -802,7 +814,7 @@ learnr::question(
 
 To arrange rows from highest value to lowest (*descending* order), surround a column name with `desc()`. Like `arrange()`, `desc()` comes with the dplyr package.
 
-For example, which countries had the *highest* `gdpPercap` in 2020?
+For example, what was the *lastest* `publication_year` in the  data set?
 
 We can use `arrange()` and `desc()` to sort any type of column in R. For example, we can sort a character column. `arrange()` and `desc()` will sort the column in alphabetical order. `desc()` will change this to reverse alphabetical order.
 
@@ -849,23 +861,28 @@ Specifically, you will learn how to:
 
 ### **Add a new column**
 
-Consider a small data set I’ve prepared called `worksgardner_sample`. It has four columns.
+Consider a small data set I’ve prepared called `artists_sample_mutate`. It has six columns.
 
 ```{r}
-worksgardner_sample
+artists_sample_mutate
 ```
 
-We want to add a fifth column called `researcher` that displays the last name of the person who collected each measurement. The last names are stored in the following vector:
+We want to add a seventh column called `is_female`, which will be a logical column (`TRUE` or `FALSE`) indicating whether the artist's gender is female:
 
-```{r lastnames}
-artist_lastnames <- c("Gorman", "Williams", "Gorman", "Williams", "Fraser")
-```
-
-We can use dplyr’s `mutate()` function to add new columns. Try it—**fill in the blank with `mutate()` to add the `researcher` column.**
+We can use dplyr’s `mutate()` function to add new columns. Try it—**fill in the blank with `mutate()` to add the `is_female` column.**
 
 ```{r ex-mutate-data, exercise=TRUE}
-worksgardner_sample %>%
-  ____(researcher = artist_lastnames)
+artists_sample_mutate %>%
+  ____(is_female = artist_gender == "female")
+```
+
+```{r ex-mutate-data-solution}
+artists_sample_mutate %>%
+  mutate(is_female = artist_gender == "female")
+```
+
+```{r ex-mutate-data-check}
+grade_this_code("mutate() is used to add new columns")
 ```
 
 ### **Syntax**
@@ -881,17 +898,16 @@ We supply:
 
 -   **data set**: the name of the data set you are starting with is always the first argument of `mutate()`. This is often supplied using the forward-pipe operator.
 
--   **name of the new column**: this is `researcher` in the previous example.
+-   **name of the new column**: this is `is_female` in the previous example.
 
--   **contents of the new column**: this is the vector `lastnames` in our example. It contains one value for each row in `penguins_sample`, and the values are ordered in the same order as the rows in `penguins_sample`.
+-   **contents of the new column**: this is the vector checking to see if a value exists for `artist_gender` and when the condition is met, setting the value to `TRUE`.
 
 Here is our code again:
 
 ```         
-lastnames <- c("Gorman", "Williams", "Gorman", "Williams", "Fraser")
 
-penguins_sample %>%
-  mutate(researcher = lastnames)
+artists_sample_mutate %>%
+  mutate(is_female = artist_gender == "female")
 ```
 
 ![](images/fyi.svg){width="43" height="128"} You can also use `mutate()` without the forward pipe operator:
@@ -900,25 +916,6 @@ penguins_sample %>%
 mutate(<data set>, <new_column> = <contents of new column>)
 ```
 
-**Add a new column called `body_mass_kg` to the data set `penguins_sample`. The new column should contain the values in the vector `kilograms`, shown below:**
-
-```         
-kilograms <- c(4.85, 3.20, 4.90, 3.45, 3.85)
-```
-
-If we’d like to retain a copy of `mutate()`’s output to use later, we should save the output as an object.
-
-**Save the results of the call below to a new tibble called `penguins_sample_kg`** using R’s assignment operator `<-`.
-
-penguins_sample %\>% mutate(body_mass_kg = kilograms)
-
-We can use vectorized operations within `mutate()` to generate values for the new column on the spot. Here’s an example, with a larger data set called `worksgardner_page_size`.
-
-```         
-#worksgardner_page_size
-```
-
-Let’s create a new column named `body_mass_kg` that takes the values in the `body_mass` column and converts them to kilograms. **Complete the `mutate()` call below by filling in the blank with `body_mass / 1000`.** Your results will be saved in a new table, `penguins_kg`.
 
 Some common vectorized functions to include with `mutate()` include:
 
