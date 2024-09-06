@@ -411,7 +411,11 @@ As of [tidyverse 2.0.0](https://www.tidyverse.org/blog/2023/03/tidyverse-2-0-0/)
 
 ## **Tables / Tibbles / data frames**
 
-In R, spreadsheet-like tables are called "tibbles" or "data frames." This distinguishes them from matrices and arrays, which are another type of table.
+In R, spreadsheet-like tables are called "tibbles" or "data frames."
+
+A data frame is a rectangular collection of variables (in the columns) and observations (in the rows).
+
+![](images/dataframe.jpg)
 
 As data scientists, we will work closely with tibbles. Today we will learn how to transform and visualize data from tibbles.
 
