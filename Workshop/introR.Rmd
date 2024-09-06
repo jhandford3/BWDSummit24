@@ -18,6 +18,8 @@ library(arthistory)
 library(ggplot2)
 library(ggcheck)
 library(gt)
+library(ggthemes)
+library(tidyr)
 
 #library(here)
 library(gradethis)
@@ -59,6 +61,14 @@ If everyone can scan this QR code and fill out the survey
 
 ![](images/BWD-PreSurvey-Form.jpg){width="140"}
 
+### Course Materials
+
+To access the contents for this workshop, please go to:
+
+<font size=5><https://pos.it/bwd24-introR></font>
+
+![](images/bwd-training-materials.jpg){width="153"}
+
 ### Tutorial Overview
 
 This tutorial will introduce you to the fundamentals of **R language** and the Tidyverse, a powerful collection of R packages for data manipulation and visualization.
@@ -89,7 +99,7 @@ You don’t need to know anything about R before you begin. The tutorial is desi
 
     -   Save values as objects to use later with `<-`
 
-    -   Chain functions together with `|>`
+    -   Chain functions together with `%>%`
 
     -   The basics of R packages
 
@@ -137,9 +147,9 @@ R is a powerful and flexible programming language and software environment speci
 
 ### **Functions**
 
-####
+#### 
 
-`Sys.Date` is an R function that returns today's date. To run it, type a pair of parentheses, `()`, after its name. 
+`Sys.Date` is an R function that returns today's date. To run it, type a pair of parentheses, `()`, after its name.
 
 **Add a pair of parentheses behind `Sys.Date`, like this: `Sys.Date()`.** Then run the code.
 
@@ -162,15 +172,15 @@ grade_result(
 
 To run any function in R, add a pair of parentheses, `()`, to the end of the function name. Think of the parentheses as the trigger that causes R to run the code stored in the function.
 
-Sometimes you will hear people speak of _executing_ a function or _calling_ a function. These are synonyms for running a function.
+Sometimes you will hear people speak of *executing* a function or *calling* a function. These are synonyms for running a function.
 
-::: {.tip}
+::: tip
 When I mention a function, I'll try to put `()` after its name, e.g. `Sys.Date()`. This convention will help distinguish functions from other objects in R that aren't functions. We will learn about other types of objects in future tutorials.
 :::
 
-####
+#### 
 
-Functions are like the "verbs" of R. Whenever we do something in R, we do it by calling a function. 
+Functions are like the "verbs" of R. Whenever we do something in R, we do it by calling a function.
 
 R comes with thousands of predefined functions for you to use. For example, `sqrt()` computes the square root of a number.
 
@@ -189,13 +199,12 @@ question(
 )
 ```
 
-
 ### **Objects**
 
 #### **Consider this**
 
-* How would _you_ store this number `2.718282` as `e` in R's memory? 
-* How would you retrieve the value of `e`? 
+-   How would *you* store this number `2.718282` as `e` in R's memory?
+-   How would you retrieve the value of `e`?
 
 #### **Assignment**
 
@@ -205,31 +214,26 @@ To save `2.718282` as `e` in R, we assign the value `2.718282` to the name `e`. 
 e <- 2.718282
 ```
 
-
 ```{r ref.label="assign-e"}
 # show `assign-e` chunk in text
 ```
 
 `<-` is R's assignment operator. To write it, type:
 
-1. a less than sign, `<`, followed immediately by 
-2. a minus sign, `-` 
+1.  a less than sign, `<`, followed immediately by
+2.  a minus sign, `-`
 
-The combination looks like an arrow. `<-` creates a new _object_ that has the name that appears on the left side of the arrow and the value that appears on the right side of the arrow. 
+The combination looks like an arrow. `<-` creates a new *object* that has the name that appears on the left side of the arrow and the value that appears on the right side of the arrow.
 
 ::: tip
-
 There is a programming paradigm called Object Oriented Programming (OOP) —- that's not R, and I'm not using the term "object" in the same way. Here, object means something much closer to its meaning in English. Think of an "object" as the implied entity that has the name `e` and (for the moment) the value `r e`.
-
 :::
 
-
-####
+#### 
 
 Let's make our own version of `e`.
 
 **Create an object named `e` for yourself below.** I've typed out the value of $e$ to get you started. Remember that R won't return a result when you create an object, and that's OK.
-
 
 ```{r makee, exercise = TRUE}
 2.718282
@@ -243,9 +247,8 @@ e <- 2.718282
 grade_this_code("Good work. Now let's look at what we can do with `e`")
 ```
 
-
 ### What if?
- 
+
 We can assign to an object more than once.
 
 ```{r eval = FALSE}
@@ -268,12 +271,11 @@ it is easy to overwrite the values of existing objects. Be careful!"
 )
 ```
 
-
 ### **Functions and objects**
 
-####
+#### 
 
-Can you run a function on an object? Let's find out. **In the box below, try to `round()` `e`.** 
+Can you run a function on an object? Let's find out. **In the box below, try to `round()e`.**
 
 ```{r rounde, exercise = TRUE, exercise.setup="assign-e"}
 
@@ -287,31 +289,28 @@ round(e)
 grade_this_code("Excellent, you can run a function on an object. And `round(e)` was less typing than `round(2.718282)`.")
 ```
 
-####
+#### 
 
 ### **Naming rules**
 
-####
+#### 
 
 We can name an object almost anything we want, but we do need to follow a couple of rules:
 
-1. A name cannot begin with a number
-1. A name cannot contain a special character like, `+`, `-`, `/`, `*`, `^`, `%`, `!`, `$`, `@`, `'`, `"`. R wouldn't be able to tell if we were naming an object or doing some math. One exception is `_`, which is often used *in* names (but a name can't start with `_`).
+1.  A name cannot begin with a number
+2.  A name cannot contain a special character like, `+`, `-`, `/`, `*`, `^`, `%`, `!`, `$`, `@`, `'`, `"`. R wouldn't be able to tell if we were naming an object or doing some math. One exception is `_`, which is often used *in* names (but a name can't start with `_`).
 
-####
-
+#### 
 
 ### **Assembling code**
 
-####
+#### 
 
 **On the three empty lines below:**
 
-1. Create an object named `hello` that contains the value `56`
-1. Create an object named `world` that contains the value `44`
-1. Add `hello` to `world`
-
-
+1.  Create an object named `hello` that contains the value `56`
+2.  Create an object named `world` that contains the value `44`
+3.  Add `hello` to `world`
 
 ```{r hello, exercise = TRUE, exercise.lines = 3}
  
@@ -336,14 +335,14 @@ grade_result(
 )
 ```
 
-####
+#### 
 
-**Now add a function to the third line to find the square root of `hello + world`.**  Be sure to remove each `_` before you run your code._
+**Now add a function to the third line to find the square root of `hello + world`.** Be sure to remove `___` before you run your code.
 
 ```{r squarehello, exercise = TRUE}
 hello <- 56
 world <- 44
-____(hello + world)
+___(hello + world)
 ```
 
 ```{r squarehello-solution}
@@ -356,10 +355,9 @@ sqrt(hello + world)
 grade_this_code("Good job. When you write code inside of the parentheses that follow a function, R will work from the inside out: R will run the code inside of the parentheses, and then run the function outside of the parentheses on the result.")
 ```
 
-
 ### **Chaining functions**
 
-R users will usually rewrite nested functions as _chained_ functions, which are easier to read. You can chain two functions together with the pipe symbol, which looks like this, `%>%`.
+R users will usually rewrite nested functions as *chained* functions, which are easier to read. You can chain two functions together with the pipe symbol, which looks like this, `%>%`.
 
 ```{r}
 e %>% round()
@@ -367,10 +365,9 @@ e %>% round()
 
 `%>%` takes the result of the expression on its left-hand side and passes it into the first argument of the function on its right-hand side.
 
+#### 
 
-####
-
-You can use `%>%` sequentially to chain together multiple functions. For example, we can rewrite `sqrt(round(e))` as 
+You can use `%>%` sequentially to chain together multiple functions. For example, we can rewrite `sqrt(round(e))` as
 
 ```{r}
 e %>% 
@@ -379,11 +376,8 @@ e %>%
 ```
 
 ::: fyi
-
 Notice that the R interpreter runs the code above as a single expression, even though it spans multiple lines. As the interpreter reads code, when it gets to the end of a line, it checks to see whether or not it has read a complete expression. If it has, the interpreter runs the code. If it hasn't, the interpreter continues to read in the next line of code. If there is no next line, the interpreter will return an error.
-
 :::
-
 
 #### `%>%` vs. `|>` {.tip}
 
@@ -391,8 +385,7 @@ One last detail before we wrap up---R has introduced `|>`, but for this tutorial
 
 If you're curious to learn more, you can read about the differences between `|>` and `%>%` in [this blog post](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/){target="_blank" rel="noopener noreferrer"}.
 
-####
-
+#### 
 
 Congrats on your completing your into to R coding. Now lets dive into the Tidyverse World :)
 
@@ -416,13 +409,11 @@ As of [tidyverse 2.0.0](https://www.tidyverse.org/blog/2023/03/tidyverse-2-0-0/)
 -   forcats
 -   lubridate
 
-## **Tables / Tibbles / data frames **
+## **Tables / Tibbles / data frames**
 
 In R, spreadsheet-like tables are called "tibbles" or "data frames." This distinguishes them from matrices and arrays, which are another type of table.
-  
+
 As data scientists, we will work closely with tibbles. Today we will learn how to transform and visualize data from tibbles.
-
-
 
 ## **Data transformation with dplyr**
 
@@ -454,14 +445,13 @@ Artists who are women have been historically underrepresented, both where art is
 
 The [dataset](https://saralemus7.github.io/arthistory/#datasets) used in this tutorial was created by Holland Stam for her excellent undergraduate [thesis](https://doi.org/10.7924/r4dn48h0w). Let’s start by reading in the data for one specific textbook, ***Gardner’s Art Through the Ages***:
 
-
-R doesn't use every package you have installed every time you open R. R waits for you to tell it which packages you would like to use during _that_ R session. By R session, I mean the time from when you open R (or the RStudio IDE) until when you close it. 
+R doesn't use every package you have installed every time you open R. R waits for you to tell it which packages you would like to use during *that* R session. By R session, I mean the time from when you open R (or the RStudio IDE) until when you close it.
 
 ::: tip
 How do you tell R to load a package? With the `library()` command
 :::
 
-**Can you load the `arthistory` package below?** 
+**Can you load the `arthistory` package below?**
 
 ```{r library-tidyverse-arthistory, exercise=TRUE}
 
@@ -814,7 +804,7 @@ learnr::question(
 
 To arrange rows from highest value to lowest (*descending* order), surround a column name with `desc()`. Like `arrange()`, `desc()` comes with the dplyr package.
 
-For example, what was the *lastest* `publication_year` in the  data set?
+For example, what was the *lastest* `publication_year` in the data set?
 
 We can use `arrange()` and `desc()` to sort any type of column in R. For example, we can sort a character column. `arrange()` and `desc()` will sort the column in alphabetical order. `desc()` will change this to reverse alphabetical order.
 
@@ -916,7 +906,6 @@ artists_sample_mutate %>%
 mutate(<data set>, <new_column> = <contents of new column>)
 ```
 
-
 Some common vectorized functions to include with `mutate()` include:
 
 +-----------------------------+---------------------------------------------------------------------------------------------+-------------------------+
@@ -993,17 +982,17 @@ The window below contains code from a previous exercise (spread over multiple li
 
 -   `mass_kg_centered`, which computes the difference between `body_mass_kg` and `avg_mass_kg`.
 
-+---+------------------------------------------------------------------------------------------+---+
-|   | ![](images/bookmark.png){width="24" height="40"}                                         |   |
-|   |                                                                                          |   |
-|   | ### **`Takeaway`**                                                                       |   |
-|   |                                                                                          |   |
-|   | You’ve now learned how to use dplyr’s `mutate()` to:                                     |   |
-|   |                                                                                          |   |
-|   | -   Update an existing column                                                            |   |
-|   |                                                                                          |   |
-|   | -   Create columns efficiently by computing multiple columns in a single `mutate()` call |   |
-+---+------------------------------------------------------------------------------------------+---+
++--------+------------------------------------------------------------------------------------------+--------+
+|        | ![](images/bookmark.png){width="24" height="40"}                                         |        |
+|        |                                                                                          |        |
+|        | ### **`Takeaway`**                                                                       |        |
+|        |                                                                                          |        |
+|        | You’ve now learned how to use dplyr’s `mutate()` to:                                     |        |
+|        |                                                                                          |        |
+|        | -   Update an existing column                                                            |        |
+|        |                                                                                          |        |
+|        | -   Create columns efficiently by computing multiple columns in a single `mutate()` call |        |
++--------+------------------------------------------------------------------------------------------+--------+
 
 ```{r ex-mutate-data-2, exercise=TRUE}
 # mutated_data <- data %>%
@@ -1024,12 +1013,14 @@ Along the way, you’ll learn how to:
 
 3.  Layer multiple plot types
 
-## **Create a canvas**
+## **Creating a ggplot**
 
-Every plot you create with ggplot2 will involve the function `ggplot()`. When we run `ggplot()` without any arguments, it initializes a blank canvas for a plot. The result is just an empty, gray square! **Run the following code to generate a blank plot.**
+With ggplot2, you begin a plot with the function `ggplot()`, defining a plot object that you then add **layers** to. The first argument of ggplot() is the dataset to use in the graph and so ggplot(data = worksgardner_sample) creates an empty graph that is primed to display the worksgardner_sample data, but since we haven't told it how to visualize it yet, for now it's empty. This is not a very exciting plot, but you can think of it like an empty canvas you'll paint the remaining layers of your plot onto.
+
+**Run the following code to generate a blank, gray plot area.**
 
 ```{r ggplot, exercise=TRUE}
-ggplot()
+ggplot(data = worksgardner_sample)
 ```
 
 ## Visualize vectors
@@ -1216,15 +1207,9 @@ Install R: Run the downloaded installer and follow the installation instructions
 
 Install RStudio on your desktop using the following link: <https://posit.co/download/rstudio-desktop/>
 
-
 ![](images/panes.png){width="75%"}
 
-
-
 Once R is installed, you can start using it to run analyses and visualizations. R has a wide variety of packages available to extend its functionality. Here’s how to install and load some basic R packages:
-
-
-
 
 #### Installing Packages:
 
@@ -1235,8 +1220,6 @@ For example, you can install the ggplot2 package for data visualization and the 
 `install.packages("ggplot2")`
 
 `install.packages("dplyr")`
-
-
 
 #### Loading Packages:
 
@@ -1251,20 +1234,10 @@ library(dplyr)
 
 Conclusion: With R installed and basic packages loaded, you're ready to start performing data analysis and visualizations. R offers extensive resources and community support, making it a great choice for anyone looking to work in data science or statistics. Happy coding!
 
-
-
-
-
-
-
-
-
-
-
-### Posit Cloud 
+### Posit Cloud
 
 <https://posit.cloud/>
 
-### Posit Academy 
+### Posit Academy
 
 <https://posit.co/products/enterprise/academy/>
