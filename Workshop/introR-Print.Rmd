@@ -3,14 +3,46 @@ title: "**Intro to Data Science Using R**"
 author: "**Presenters: Janeka Handford & Jimmy Lubega**"
 output: 
   learnr::tutorial:
-    progressive: true
+    progressive: false
     allow_skip: true
     df_print: paged
+    always_allow_html: true 
+  pdf_document: default
 runtime: shiny_prerendered
 description: "Intro to R and Tidyverse"
 ---
 
 <link rel="stylesheet" type="text/css" href="https://rsacdn.link/teachthis/css/style.css"/>
+
+```{css echo=FALSE}
+@media print {
+  .topicsContainer,
+  .topicActions,
+  .exerciseActions .skip {
+    display: none;
+  }
+  .topics .tutorialTitle,
+  .topics .section.level2,
+  .topics .section.level3:not(.hide) {
+    display: block;
+  }
+  .topics {
+    width: 100%;
+  }
+  .tutorial-exercise, .tutorial-question {
+    page-break-inside: avoid;
+  }
+  .section.level3.done h3 {
+    padding-left: 0;
+    background-image: none;
+  }
+  .topics .showSkip .exerciseActions::before {
+    content: "Topic not yet completed...";
+    font-style: italic;
+  }
+}
+```
+
 
 ```{r setup, include=FALSE}
 library(learnr)
