@@ -425,7 +425,7 @@ If you're curious to learn more, you can read about the differences between `|>`
 
 #### 
 
-Congrats on your completing your into to R coding. Now lets dive into the Tidyverse World :)
+Congrats on completing your intro to R coding. Now lets dive into the Tidyverse World :)
 
 ## **Introduction to Tidyverse**
 
