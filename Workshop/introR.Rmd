@@ -22,8 +22,8 @@ library(gt)
 library(ggthemes)
 library(tidyr)
 library(knitr)
-
-
+library(tblcheck)
+tutorial_options(exercise.completion = FALSE)
 library(gradethis)
 #opts_chunk$set(echo = knitr::is_html_output())
 
@@ -875,12 +875,13 @@ worksgardner %>%
 
 We can use `arrange()` and `desc()` to sort any type of column in R. For example, we can sort a character column. `arrange()` and `desc()` will sort the column in alphabetical order. `desc()` will change this to reverse alphabetical order.
 
-**Use `arrange()` and `desc()` to create this table.** Hint: Return only select fields but replace `select` with `distinct`.
+**Use `arrange()` and `desc()` to create this table.** 
+Hint: Return only select fields but replace `select` with `distinct`.
 
 ```{r echo = FALSE}
 worksgardner %>% 
   filter(artist_gender == "Female") %>% 
-  distinct(publication_year, artist_race) %>%
+  distinct(publication_year, artist_race, artist_gender) %>%
   arrange(artist_race, desc(publication_year))
 ```
 
@@ -891,12 +892,12 @@ worksgardner %>%
 ```{r test-solution}
 worksgardner %>% 
   filter(artist_gender == "Female") %>% 
-  distinct(publication_year, artist_race) %>%
+  distinct(publication_year, artist_race, artist_gender) %>%
   arrange(artist_race, desc(publication_year))
 ```
 
 ```{r test-check}
-grade_this_table()
+grade_this_table("When we use `desc()`, we must wrap each column in its own `desc()` statement—or not. This gives us the flexibility to sort by descending values of one column and ascending values of another.")
 ```
 
 ### **Takeaways** {.takeaway}
