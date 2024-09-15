@@ -475,7 +475,7 @@ This dataset contains data that was used for Holland Stam’s thesis work, title
 
 This package contains three datasets:
 
--   `worksjanson`: Contains individual work-level data by edition of Gardner’s art history textbook from 1963 until 2011. For each work, there is information about the size of the work and text as displayed in the textbook as well as details about the work’s medium and year created. Demographic data about the artist is also included.
+-   `worksjanson`: Contains individual work-level data by edition of Janson's art history textbook from 1963 until 2011. For each work, there is information about the size of the work and text as displayed in the textbook as well as details about the work’s medium and year created. Demographic data about the artist is also included.
 
 -   `worksgardner`: Contains individual work-level data by edition of Gardner’s art history textbook from 1926 until 2020. For each work, there is information about the size of the work as displayed in the textbook as well as the size of the accompanying descriptive text. Demographic data about the artist is also included.
 
