@@ -935,16 +935,16 @@ We can use dplyr’s `mutate()` function to add new columns. Try it—**fill in 
 
 ```{r ex-mutate-data, exercise=TRUE}
 artists_sample_mutate %>%
-  ____(is_female = artist_gender == "female")
+  ____(is_female = artist_gender == "Female")
 ```
 
 ```{r ex-mutate-data-solution}
 artists_sample_mutate %>%
-  mutate(is_female = artist_gender == "female")
+  mutate(is_female = artist_gender == "Female")
 ```
 
 ```{r ex-mutate-data-check}
-grade_this_code("mutate() is used to add new columns")
+grade_this_table("mutate() is used to add new columns")
 ```
 
 ### **Syntax**
